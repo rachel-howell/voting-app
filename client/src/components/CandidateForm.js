@@ -1,42 +1,40 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 
-const ContenderForm = ()=> {
-    const [name, setName] = useState("");
-    const [pastTermStartDate, setPastTermStartDate] = useState("1/1/1900");
-    const [pastTermEndDate, setPastTermEndDate] = useState("1/1/1900");
-    const [party, setParty] = useState("");
-    const [stance, setStance] = useState("");
-    const [experience, setExperience] = useState("");
+const CandidateForm = ()=> {
+    const [name, setName] = useState('');
+    const [pastTermStartDate, setPastTermStartDate] = useState('1/1/1900');
+    const [pastTermEndDate, setPastTermEndDate] = useState('1/1/1900');
+    const [party, setParty] = useState('');
+    const [stance, setStance] = useState('');
+    const [experience, setExperience] = useState('');
 
     //Create an array to store errors from the API
     const [errors, setErrors] = useState({}); 
+
     const onSubmitHandler = e => {
         e.preventDefault();
-        //Send a post request to our API to create a Book
-        axios.post('http://localhost:8000/api/contender', {
+        axios.post('http://localhost:8000/api/candidate', {
             name,
             pastTermStartDate,
             pastTermEndDate,
             party,
             experience,
             stance
-        }
-            .then(res=>console.log(res.data)) // If successful, do something with the response. 
-            .catch(err=>{
+        })
+            .then((res)=>console.log(res.data)) // If successful, do something with the response. 
+            .catch((err=>{
                 setErrors(err.response.data.errors)
-            }),
-            e.target.reset(),
-            window.location.reload()      
+            })
     )}
+
     return (
         <div>
             <form onSubmit={onSubmitHandler}>
-                {errors.map((err, index) => <p key={index}>{err}</p>)}
                 <p>
                     <label>Name:</label>
                     <input type="text" onChange={e => setName(e.target.value)} />
-                    {errors.name && <span>{errors.Name.message}</span>}<br></br>
+                    {errors.name && <span>{errors.name.message}</span>}<br></br>
                 </p>
                 <p>
                     <label>Past Term Start Date</label>
@@ -68,5 +66,5 @@ const ContenderForm = ()=> {
         </div>
     )
 }
-export default ContenderForm;
+export default CandidateForm;
 

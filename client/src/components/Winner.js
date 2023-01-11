@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 
 const Winner = () => {
-    const [contenderList, setContenderList] = useState([])
+    const [candidateList, setCandidateList] = useState([])
     const Ref = useRef(null);
     const [timer, setTimer] = useState('00:00:00');
 
@@ -32,7 +32,7 @@ const Winner = () => {
     }
 
     const greatestCounter = (id) => {
-        Math.max.apply(Math, contenderList.map(function(o) { return o.counter; }))
+        Math.max.apply(Math, candidateList.map(function(o) { return o.counter; }))
     }
     
 
@@ -44,9 +44,9 @@ const Winner = () => {
             {/* else output only the candidate with the greatest number of 
             votes by using another ternary operator */}
             {getTimeRemaining >= 0} ? <h1>{timer}</h1>: <h1>{greatestCounter}</h1>
-            {contenderList.filter(contender => contender.includes({greatestCounter})).map(filteredContender => (
+            {candidateList.filter(candidate => candidate.includes({greatestCounter})).map(filteredCandidate => (
             <h1>
-            {filteredContender}
+            {filteredCandidate}
             </h1>
         ))}
         </div>
