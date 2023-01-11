@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const SECRET =process.env.SECRET_KEY
+const SECRET =process.env.SECRET
 
 module.exports.authenticate = (req,res,next)=> {
     console.log("cookies", req.cookies)

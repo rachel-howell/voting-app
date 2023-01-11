@@ -18,8 +18,8 @@ app.use(cookieParser())
 
 require('./config/mongoose.config');
 
-const ContenderRoutes= require('./routes/polling.route');  
-ContenderRoutes(app);
+const CandidateRoutes= require('./routes/candidate.route');  
+CandidateRoutes(app);
 
 const UserRoutes = require('./routes/user.route');   
 UserRoutes(app);

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ContenderSchema = new mongoose.Schema({
+const CandidateSchema = new mongoose.Schema({
     name:
      { type: String,required: [
         true,
@@ -37,5 +37,5 @@ const ContenderSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-module.exports = mongoose.model('Contender', ContenderSchema);
+module.exports = mongoose.model('Candidate', CandidateSchema);
 

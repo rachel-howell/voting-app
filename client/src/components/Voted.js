@@ -1,65 +1,69 @@
 import React, { useEffect, useState} from 'react';
 import axios from 'axios';
-import {Link, useParams} from "react-router-dom";
+import {Link, useParams, useNavigate} from "react-router-dom";
 
 
 const Voted = () => {
-  const [contender, setContender] = useState({});
+  const [candidate, setCandidate] = useState({});
   const [name, setName] = useState("");
   const [counter, setCounter] = useState(0);
   const {submitted, setSubmitted} = useState(false)
+  
   const {id} = useParams();
   const navigate = useNavigate();
 
+  const [errors,setErrors] = useState({})
+
+
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/${id}`)
+    axios.get(`http://localhost:8000/api/candidate/${id}`)
     .then( (res) => {
       console.log(res.data);
       setName(res.data);
       setCounter(counter => counter + 1)
-      console.log(e.target.value, data);
-
   })
   .catch( (err) => console.log(err) );
 }, []);
 
-  const onSubmitHandler = e => {
-
+  const onSubmitHandler = (e) => {
     if (submitted) {
       return;
     }
     e.preventDefault();
-    //Send a post request to our API to create a Book
-    axios.put('http://localhost:8000/api/vote/${id}', {
+    axios.put(`http://localhost:8000/api/vote/${id}`,{
         name,
         counter
     })
-    .then(res=>
-      console.log(res.data)),
+    .then((res)=> {
+      console.log(res.data)
       setSubmitted(true)
-      .catch( (err) => console.log(err) )
-      navigate("/api/winner")
-    }         
+      navigate('/api/candidates')
+    }).catch((err) => {
+      console.log(err)
+      setErrors(err.response.data.errors)
+  })
 
+}
+       
 
   return (
     <div>
         <div> 
-            <p>{contender.name}</p> 
-            <p>{contender.pastTermStartDate}</p>
-            <p>{contender.pastTermEndDate}</p>
-            <p>{contender.party}</p>
-            <p>{contender.stance}</p>
-            <p>{contender.experience}</p>
+            <p>{candidate.name}</p> 
+            <p>{candidate.pastTermStartDate}</p>
+            <p>{candidate.pastTermEndDate}</p>
+            <p>{candidate.party}</p>
+            <p>{candidate.stance}</p>
+            <p>{candidate.experience}</p>
             <form onSubmit={onSubmitHandler}>
-              <input type="text" defaultValue={contender.name} onChange={e => setName(e.target.value)}></input>
-              <input type="checkbox"  defaultChecked={false} onClick={((e) => setCounter(e, data))}></input>
+              <input type="text" defaultValue={candidate.name} onChange={e => setName(e.target.value)}></input>
+              <input type="checkbox"  defaultChecked={false} onClick={((e) => setCounter(e.target.value))}></input>
               <button>Vote for this Candidate</button>
             </form>
-            <Link to={`/api/contender`} className="btn border btn-info">Back</Link>
+            <Link to={`/api/candidates`} className="btn border btn-info">Back to Candidates</Link>
         </div> 
     </div>
   )
 }
 
-export default Voted;
+export default Voted

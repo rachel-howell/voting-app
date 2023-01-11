@@ -2,17 +2,21 @@ import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 import { Link} from 'react-router-dom';
 
-const ContenderList = () => {   
-    const [contenderList, setContenderList] = useState([]);
+const CandidateList = () => {   
+    const [candidateList, setCandidateList] = useState([]);
 
     useEffect (() => {
-        axios.get('http://localhost:8000/api/contender')
-            .then((res) => setContenderList(res.data))
-            .catch(err => console.log(err))
+        axios.get('http://localhost:8000/api/candidates', {withCredentials:true})
+            .then((res) => {
+                console.log(res)
+                setCandidateList(res.data)
+            }).catch(err => {
+                console.log(err)
+            })
     }, []);
 
     const deleteSelection = (index) => {
-        setContenderList((prevState) => {
+        setCandidateList((prevState) => {
           let items = [...prevState];
           console.log(items);
           items.splice(index, 1);
@@ -23,10 +27,10 @@ const ContenderList = () => {
   return (
     <div>
         { 
-            contenderList.map(contender => (
+            candidateList.map(candidate => (
                 <div className="h5 container d-flex p-2 mx-auto my-2 justify-content-between border-top">
-                    <Link to={`/api/${contender._id}`}>
-                        <label>{contender.firstName} {contender.lastName} 
+                    <Link to={`/api/candidate/${candidate._id}`}>
+                        <label>{candidate.firstName} {candidate.lastName} 
                             <input type="radio"/>
                         </label>
                     </Link>
@@ -40,4 +44,4 @@ const ContenderList = () => {
   )
 }
 
-export default ContenderList;
+export default CandidateList;
